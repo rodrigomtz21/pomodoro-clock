@@ -1,0 +1,87 @@
+<div class="container">
+    <div class="row justify-content-md-center content-title">
+        <div class="col col-lg-8">
+            <h2>Pomodoro clock</h2>
+            <button type="submit" class="btn btn-primary btn-lg btn-block" (click)="openTaskForm()">Add Task</button>
+        </div>
+    </div>
+    
+    <div class="row justify-content-md-center" *ngIf="taskForm">
+        
+        <div class="col col-lg-8">
+            <form>
+                <div class="form-group">
+                    <label for="nameTask">Name Task</label>
+                    <input type="text" class="form-control" id="nameTask" name="nameTask" [(ngModel)]="nameTask" required>
+                    
+                </div>
+                 
+                <button type="button" class="btn btn-outline-info" (click)="addIntervalToTask()">Add interval</button>
+                <div class="row" *ngFor="let interval of intervals">
+                    <div class="col col-lg-6">
+                        <div class="form-group">
+                            <label for="{{interval.id}}Name">Name interval</label>
+                            <input type="text" class="form-control" name="{{interval.id}}Name" [(ngModel)]="interval.name">
+                        </div>
+                    </div>
+                    <div class="col col-lg-2">
+                        <div class="form-group">
+                            <label for="{{interval.id}}Time">Time Interval</label>
+                            <input type="number" min="10" max="25" class="form-control" name="{{interval.id}}Time" [(ngModel)]="interval.time">
+                        </div>
+                    </div>
+                    <div class="col col-lg-2">
+                        <div class="form-group">
+                            <label for="{{interval.id}}Break">Time Break</label>
+                            <input type="number" class="form-control" name="{{interval.id}}Break" [(ngModel)]="interval.shortBreak">
+                        </div>
+                    </div>
+                    <div class="col col-lg-1 content-btn-delete-interval">
+                        <button type="submit" class="btn btn-primary btn-delete-interval" (click)="removeInterval(interval.id)" *ngIf="interval.removed">x</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-lg-6">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block" (click)="addToList()" *ngIf="!editing">Save</button>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block" (click)="updateTask()" *ngIf="editing">Update</button>
+                    
+                    </div>
+                    <div class="col col-lg-6">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block" (click)="closeTaskForm()" >Cancel</button>
+                    </div>
+                </div>
+                
+                
+            </form>
+        </div>
+        
+        
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col col-lg-8">
+                <div class="col col-lg-12" class="container-task"  *ngFor="let item of tasks">
+                    <div class="row">
+                        <div class="details col col-lg-6">
+                            <h2>{{ item.name }}</h2>
+                            <h4>Intervals: {{ item.numberIntervals }}</h4>
+                            <h4>Total time: {{ item.totalTime | timeFormat }}:00</h4>
+                            <button type="button" class="btn btn-outline-info" (click)="removeTaskFromList(item.id)" [disabled]="taskRunning">Delete</button>
+                            <button type="button" class="btn btn-outline-info" (click)="editTask(item.id)" [disabled]="item.completed || taskRunning">Edit</button>
+                            <button type="button" class="btn btn-outline-info" (click)="endTask(item.id)" [disabled]="item.completed || taskRunning">Done</button>
+                        </div>
+                        <div class="counter col col-lg-6">
+                            <h4 class="active" *ngIf="item.started">Running</h4>
+                            <h4 class="done" *ngIf="item.completed">Done</h4>
+                            <h3 *ngIf="item.started">{{ titleInterval }}</h3>
+                            <h2 *ngIf="item.started">{{ minutes | timeFormat }}:{{ timer | timeFormat }}</h2>
+                            <h2 *ngIf="!item.started">00:00</h2>
+                            <button type="button" class="btn btn-outline-info" (click)="startInterval(item.id)" [disabled]="taskRunning || item.completed">Iniciar</button>
+                            <button type="button" class="btn btn-outline-info" (click)="stopInterval(item.id)" [disabled]="!item.started">Stop</button>
+                            <button type="button" class="btn btn-outline-info" id="pauseBtn{{item.id}}">Pause</button>
+                            <button type="button" class="btn btn-outline-info" id="resumeBtn{{item.id}}">Resume</button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>

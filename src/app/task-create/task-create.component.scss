@@ -1,0 +1,36 @@
+.container-task{
+    margin-top: 20px;
+    border: solid 1px #000000;
+    padding: 10px 10px 10px 10px;
+
+    .counter{
+        text-align: center;
+    }
+
+    .details {
+        text-align: center;
+    }
+
+    button{
+        margin: 0px 3px 0px 3px;
+    }
+}
+
+.active {
+    color: #007bff;
+}
+
+.done {
+    color: green;
+}
+.content-btn-delete-interval{
+    padding-left: 10%;
+    .btn-delete-interval {
+        margin-top: 32px;
+    }
+}
+
+.content-title {
+    text-align: center;
+    padding-bottom: 30px;
+}
